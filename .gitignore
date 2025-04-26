@@ -66,7 +66,3 @@ Makefile
 .Trashes
 ehthumbs.db
 Thumbs.db
-
-# 3rd party libraries
-3rd/*
-!3rd/glad/
