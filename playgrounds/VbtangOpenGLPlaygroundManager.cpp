@@ -1,5 +1,5 @@
-#include "vbtangOpenGLPlaygroundManager.h"
-#include "IvbtangOpenGLPlayground.h"
+#include "VbtangOpenGLPlaygroundManager.h"
+#include "IVbtangOpenGLPlayground.h"
 
 #include "concretePlaygrouds/HelloTrianglePlayground/HelloTrianglePlayground.h"
 

@@ -38,7 +38,7 @@ file(GLOB_RECURSE PLAYGROUNDS_SOURCES
         "playgrounds/*/*/*.cpp"
 )
 set(PLAYGROUNDS
-    playgrounds/vbtangOpenGLPlaygroundManager.cpp
+    playgrounds/VbtangOpenGLPlaygroundManager.cpp
     ${PLAYGROUNDS_SOURCES}
 )
 # create executable

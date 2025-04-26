@@ -1,8 +1,5 @@
 #include "HelloTrianglePlayground.h"
 
-#include <imgui.h>
-#include <glm/gtc/type_ptr.hpp>
-
 HelloTrianglePlayground::HelloTrianglePlayground()
 {
     VAO = 0;

@@ -6,8 +6,8 @@
 #include <iostream>
 #include <memory>
 
-#include "IvbtangOpenGLPlayground.h"
-#include "vbtangOpenGLPlaygroundManager.h"
+#include "IVbtangOpenGLPlayground.h"
+#include "VbtangOpenGLPlaygroundManager.h"
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
@@ -62,10 +62,12 @@ int main() {
     // initialize ImGui
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
+    #ifdef _WIN32
     ImGuiIO& io = ImGui::GetIO(); (void)io;
     // 加载中文字体
     // load font for chinese characters
     io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\simhei.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+    #endif
     ImGui::StyleColorsDark();
     
     // 设置ImGui平台/渲染器后端
