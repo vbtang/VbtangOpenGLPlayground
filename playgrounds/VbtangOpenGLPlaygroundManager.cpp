@@ -2,6 +2,7 @@
 #include "IVbtangOpenGLPlayground.h"
 
 #include "concretePlaygrouds/HelloTrianglePlayground/HelloTrianglePlayground.h"
+#include "concretePlaygrouds/TriangleTessellationPlayground/TriangleTessellationPlayground.h"
 
 void InitPlaygrounds()
 {
@@ -9,6 +10,7 @@ void InitPlaygrounds()
     {
         {"HelloTrianglePlayground", std::make_shared<HelloTrianglePlayground>()},
         {"HelloTrianglePlayground2", std::make_shared<HelloTrianglePlayground>()},
+        {"TriangleTessellationPlayground", std::make_shared<TriangleTessellationPlayground>()},
     };
 
     for (auto& [name, playground] : playgrounds)

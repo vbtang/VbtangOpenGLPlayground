@@ -29,8 +29,8 @@ int main() {
     // 初始化GLFW
     // initialize GLFW
     glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
     // 创建窗口
@@ -123,7 +123,7 @@ int main() {
             }
             
             // 获取当前可用区域（避免被后面的控件影响）
-            // get the current available region (to avoid being affected by the following controls)
+            // calculate current available region (to avoid being affected by the following controls)
             ImVec2 avail = ImGui::GetContentRegionAvail();
 
             // 预留下面两个控件的高度（一个大概值）

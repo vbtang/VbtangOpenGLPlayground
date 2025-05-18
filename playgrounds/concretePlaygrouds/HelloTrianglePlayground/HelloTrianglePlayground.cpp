@@ -14,9 +14,13 @@ HelloTrianglePlayground::~HelloTrianglePlayground()
 
 int HelloTrianglePlayground::initImpl(GLFWwindow* window)
 {
-    const std::string vertexShaderPath = R"(../playgrounds/concretePlaygrouds/HelloTrianglePlayground/vertex_shader.glsl)";
-    const std::string fragmentShaderPath = R"(../playgrounds/concretePlaygrouds/HelloTrianglePlayground/fragment_shader.glsl)";
-    if (shader.loadShaderFromFile(vertexShaderPath, fragmentShaderPath))
+    std::map<GLenum, std::string> shaderFileMap = 
+    {
+        {GL_VERTEX_SHADER, R"(../playgrounds/concretePlaygrouds/HelloTrianglePlayground/vertex_shader.glsl)"},
+        {GL_FRAGMENT_SHADER, R"(../playgrounds/concretePlaygrouds/HelloTrianglePlayground/fragment_shader.glsl)"}
+    };
+
+    if (shader.loadShaderFromFile(shaderFileMap))
     {
         return -1;
     }

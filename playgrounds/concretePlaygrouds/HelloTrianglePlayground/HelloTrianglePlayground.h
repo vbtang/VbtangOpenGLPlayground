@@ -2,6 +2,7 @@
 #ifndef _HELLO_TRIANGLE_PLAYGROUND_H_
 #define _HELLO_TRIANGLE_PLAYGROUND_H_
 
+
 #include "IVbtangOpenGLPlayground.h"
 
 class HelloTrianglePlayground : public IVbtangOpenGLPlayground

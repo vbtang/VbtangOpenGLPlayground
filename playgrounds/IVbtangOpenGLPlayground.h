@@ -3,7 +3,8 @@
 #define _IVBTANG_OPENGL_PLAYGROUND_H_
 
 #include <iostream>
-
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <imgui.h>
@@ -11,8 +12,6 @@
 #include <imgui_impl_opengl3.h>
 
 #include "tools/shader.h"
-
-struct GLFWwindow;
 
 class IVbtangOpenGLPlayground 
 {

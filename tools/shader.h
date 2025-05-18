@@ -7,8 +7,10 @@
 
 #include <string>
 #include <fstream>
+#include <filesystem>
 #include <sstream>
 #include <iostream>
+#include <map>
 
 class Shader
 {
@@ -24,15 +26,18 @@ public:
         glDeleteProgram(programID);
     }
 
-    int loadShaderFromFile(const std::string& vertexPath, const std::string& fragmentPath)
+    int loadShaderFromFile(const std::map<GLenum, std::string>& shaderFileMap)
     {
-        std::string vertexCode = loadStringFromFile(vertexPath);
-        std::string fragmentCode = loadStringFromFile(fragmentPath);
+        std::map<GLenum, std::string> shaderSrcMap;
+        for (const auto &[shaderType, shaderPath] : shaderFileMap)
+        {
+            shaderSrcMap[shaderType] = loadStringFromFile(shaderPath);
+        }
 
-        return loadShaderFromMemory(vertexCode, fragmentCode);
+        return loadShaderFromMemory(shaderSrcMap);
     }
 
-    int loadShaderFromMemory(const std::string& vertexCode, const std::string& fragmentCode)
+    int loadShaderFromMemory(const std::map<GLenum, std::string>& shaderSrcMap)
     {
         if (initialized)
         {
@@ -40,39 +45,38 @@ public:
             return -1;
         }
 
-        if (vertexCode.empty() || fragmentCode.empty())
+        programID = glCreateProgram();
+        std::vector<unsigned int> shaders;
+        for (const auto& [shaderType, shaderSrc] : shaderSrcMap)
         {
-            std::cout << "ERROR::SHADER::EMPTY_SHADER_CODE" << std::endl;
-            return -1;
+            unsigned int shaderID = glCreateShader(shaderType);
+            const char* shaderSrcPtr = shaderSrc.c_str();
+            glShaderSource(shaderID, 1, &shaderSrcPtr, nullptr);
+            glCompileShader(shaderID);
+            checkCompileErrors(shaderID, shaderTypeToString(shaderType));
+
+            glAttachShader(programID, shaderID);
+
+            shaders.emplace_back(shaderID);
         }
 
-        const char* vShaderCode = vertexCode.c_str();
-        const char * fShaderCode = fragmentCode.c_str();
-        // 2. compile shaders
-        unsigned int vertex, fragment;
-        // vertex shader
-        vertex = glCreateShader(GL_VERTEX_SHADER);
-        glShaderSource(vertex, 1, &vShaderCode, NULL);
-        glCompileShader(vertex);
-        checkCompileErrors(vertex, "VERTEX");
-        // fragment Shader
-        fragment = glCreateShader(GL_FRAGMENT_SHADER);
-        glShaderSource(fragment, 1, &fShaderCode, NULL);
-        glCompileShader(fragment);
-        checkCompileErrors(fragment, "FRAGMENT");
-        // shader Program
-        programID = glCreateProgram();
-        glAttachShader(programID, vertex);
-        glAttachShader(programID, fragment);
         glLinkProgram(programID);
         checkCompileErrors(programID, "PROGRAM");
+
         // delete the shaders as they're linked into our program now and no longer necessary
-        glDeleteShader(vertex);
-        glDeleteShader(fragment);
+        for (auto shaderID : shaders)
+        {
+            glDeleteShader(shaderID);
+        }
 
         initialized = true;
 
         return 0;
+    }
+
+    bool isInitialized()
+    {
+        return programID != 0;
     }
 
     // activate the shader
@@ -81,6 +85,12 @@ public:
     { 
         glUseProgram(programID); 
     }
+
+    void unuse() const
+    {
+        glUseProgram(0);
+    }
+
     // utility uniform functions
     // ------------------------------------------------------------------------
     void setBool(const std::string &name, bool value) const
@@ -141,6 +151,20 @@ public:
     }
 
 private:
+    std::string shaderTypeToString(GLenum shaderType) 
+    {
+        switch (shaderType) 
+        {
+            case GL_VERTEX_SHADER: return "Vertex Shader";
+            case GL_FRAGMENT_SHADER: return "Fragment Shader";
+            case GL_GEOMETRY_SHADER: return "Geometry Shader";
+            case GL_TESS_CONTROL_SHADER: return "Tessellation Control Shader";
+            case GL_TESS_EVALUATION_SHADER: return "Tessellation Evaluation Shader";
+            case GL_COMPUTE_SHADER: return "Compute Shader";
+            default: return "Unknown Shader Type";
+        }
+    }
+
     // utility function for checking shader compilation/linking errors.
     // ------------------------------------------------------------------------
     void checkCompileErrors(GLuint shader, std::string type)
@@ -172,6 +196,17 @@ private:
     {
         std::string fileContent;
         std::ifstream ifstreamFile;
+
+#ifdef DEBUG
+        std::cout << "Absolute shader file path is: " << std::filesystem::absolute(filepath) << std::endl;
+#endif
+
+        if(!std::filesystem::exists(filepath))
+        {
+            std::cout << "ERROR::SHADER::FILE: " << filepath << " NOT_FOUND" << std::endl;
+            return "";
+        }
+
         // ensure ifstream objects can throw exceptions:
         ifstreamFile.exceptions (std::ifstream::failbit | std::ifstream::badbit);
         try 
