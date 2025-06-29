@@ -85,12 +85,12 @@ int TriangleTessellationPlayground::renderImpl(GLFWwindow* window)
 
     std::array<glm::vec3, 3> trianglePoints = 
     {
-        //glm::vec3(-0.5f, -0.5f, 0.0f), // left  
-        //glm::vec3(0.5f, -0.5f, 0.0f), // right 
-        //glm::vec3(/*-0.75f*/ 0,  0.5f, 0.0f)  // top
-        glm::vec3(0.0f, 0.0f, 0.0f), // left  
-        glm::vec3(1.0f, 0.0f, 0.0f), // right 
-        glm::vec3(/*-0.75f*/ 0.0f,  1.0f, 0.0f)  // top
+        glm::vec3(-0.5f, -0.5f, 0.0f), // left  
+        glm::vec3(0.5f, -0.5f, 0.0f), // right 
+        glm::vec3(/*-0.75f*/ 0,  0.5f, 0.0f)  // top
+        //glm::vec3(0.0f, 0.0f, 0.0f), // left  
+        //glm::vec3(1.0f, 0.0f, 0.0f), // right 
+        //glm::vec3(/*-0.75f*/ 0.0f,  1.0f, 0.0f)  // top
     };
 
     if (m_useGLTess)
