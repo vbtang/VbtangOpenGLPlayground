@@ -95,8 +95,7 @@ Now we generate points for each edge within the triangle.
 
 #### Mapping Perpendicular Coordinates to [0, 2/3]
 
-When a point is within triangle ▲AEG, its **u** value falls in `[2/3, 1]`.  
-To avoid exceeding the triangle bounds (especially past the centroid), we rescale perpendicular coordinates to `[0, 2/3)` so that they remain within the triangle — specifically within trapezoid **BEGC**.
+When a point lies in triangle ▲AEG, the value of u is in [2/3, 1]. To ensure the perpendicular coordinate stays inside the triangle (does not pass the centroid), the perpendicular coordinate range must be controlled within [0, 1/3). When the inner tessellation factor is specified, the number of rings is InnerTessFactor/2 (or InnerTessFactor/2 + 1). Mapping the perpendicular coordinate to [0, 2/3) actually maps the vertical coordinate to [0, 1/3), keeping it inside trapezoid BEGC.
 
 ![Barycentric range transform](image-2.png)
 
